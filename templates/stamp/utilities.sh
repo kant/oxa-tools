@@ -1501,7 +1501,7 @@ install-tools()
 
         # powershell isn't supported on Ubuntu 12
         short_release_number=`lsb_release -sr`
-        if [[ $(echo "$short_release_number > 14" | bc -l) ]]; then
+        if [[ $(echo "$short_release_number > 14" | bc -l) == 1 ]]; then
             log "Ubuntu ${short_release_number} detected. Proceeding with powershell installation"
             install-powershell
         else
