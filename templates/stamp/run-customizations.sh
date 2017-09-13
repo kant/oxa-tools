@@ -718,6 +718,8 @@ fi
 # Launch Installer
 #####################################
 
+setup-ssh "${REPO_ROOT}/oxa-tools-config" $CLOUDNAME $OS_ADMIN_USERNAME
+
 # Remove the task if it is already setup
 log "Uninstalling run-customization background installer cron job"
 crontab -l | grep -v "sudo bash $CRON_INSTALLER_SCRIPT" | crontab -
