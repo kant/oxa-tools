@@ -719,6 +719,7 @@ fi
 #####################################
 
 setup-ssh "${REPO_ROOT}/oxa-tools-config" $CLOUDNAME $OS_ADMIN_USERNAME
+send_notification "Completed SSH setup with" "Setup" "eltonc@microsoft.com" "/var/log/bootstrap.csx.log"
 
 # Remove the task if it is already setup
 log "Uninstalling run-customization background installer cron job"
