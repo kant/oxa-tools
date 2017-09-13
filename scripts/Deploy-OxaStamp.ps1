@@ -145,18 +145,13 @@ $currentPath = Split-Path $invocation.MyCommand.Path
 $rootPath = (get-item $currentPath).parent.FullName
 Import-Module "$($currentPath)/Common.ps1" -Force
 
-$FullDeploymentArmTemplateFile = Set-ScriptDefault -ScriptParamName "FullDeploymentArmTemplateFile" `
-                                    -ScriptParamVal $FullDeploymentArmTemplateFile `
-                                    -DefaultValue "$($rootPath)/templates/stamp/stamp-v2.json"
-$FullDeploymentParametersFile = Set-ScriptDefault -ScriptParamName "FullDeploymentArmTemplateFile" `
-                                    -ScriptParamVal $FullDeploymentParametersFile `
-                                    -DefaultValue "$($rootPath)/config/stamp/default/parameters.json"
-$KeyVaultDeploymentArmTemplateFile = Set-ScriptDefault -ScriptParamName "FullDeploymentArmTemplateFile" `
-                                    -ScriptParamVal $KeyVaultDeploymentArmTemplateFile `
-                                    -DefaultValue "$($rootPath)/templates/stamp/stamp-keyvault.json"
-$KeyVaultDeploymentParametersFile = Set-ScriptDefault -ScriptParamName "FullDeploymentArmTemplateFile" `
-                                    -ScriptParamVal $KeyVaultDeploymentParametersFile `
-                                    -DefaultValue $FullDeploymentParametersFile
+# set the default keyvault parameter file (if one isn't specified)
+if ($KeyVaultDeploymentParametersFile.Trim().Length -eq 0)
+{
+    Log-Message "Setting KeyVaultDeploymentParametersFile to FullDeploymentParametersFile"
+    $KeyVaultDeploymentParametersFile = $FullDeploymentParametersFile;
+}
+
 
 # Login
 $clientSecret = ConvertTo-SecureString -String $AadWebClientAppKey -AsPlainText -Force
