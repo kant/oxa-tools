@@ -39,6 +39,9 @@ Path to the deployment template file to use for the arm deployment
 .PARAMETER TemplateParameterFile
 Path to the deployment parameters file to use for the arm deployment
 
+.PARAMETER UpgradeServer
+Name of the server to run the upgrade from
+
 .INPUTS
 None. You cannot pipe objects to Deploy-OxaStamp.ps1
 
@@ -58,6 +61,7 @@ Param(
         [Parameter(Mandatory=$true)][string]$AadTenantId,
         [Parameter(Mandatory=$true)][string]$TemplateFile,
         [Parameter(Mandatory=$true)][string]$TemplateParameterFile,
+        [Parameter(Mandatory=$true)][string]$UpgradeServer,
 
         [Parameter(Mandatory=$true)][string]$ClusterAdmininistratorEmailAddress,
         [Parameter(Mandatory=$false)][string]$OxaToolsGithubAccountName="Microsoft",
@@ -68,7 +72,7 @@ Param(
         [Parameter(Mandatory=$false)][string]$InstallerPackageName,
         [Parameter(Mandatory=$false)][array]$UpgradeParameters=@(),
 
-        [Parameter(Mandatory=$false)][switch]$Upgrade
+        [Parameter(Mandatory=$false)][switch]$Upgrade        
      )
 
 
@@ -221,6 +225,7 @@ $replacements = @{
                     "OxaToolsGithubBranchTag"=$OxaToolsGithubBranchTag;
                     "InstallerPackageName"=$InstallerPackageName;
                     "UpgradeParameters"=$upgradeParameterListEncoded;
+                    "TargetJumpboxName"=$UpgradeServer;
                 }
 
 $tempParametersFile = Update-RuntimeParameters -ParametersFile $TemplateParameterFile -ReplacementHash $replacements;
